@@ -19,9 +19,7 @@ import java.util.Properties;
 
 public class Utils {
     public static Server createSimpleServer(int port) {
-        Server server = new Server(port);
-
-        return server;
+        return new Server(port);
     }
 
     public static SslContextFactory getSslContextFactory(String file, String password) {
