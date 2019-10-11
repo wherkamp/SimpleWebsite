@@ -16,7 +16,7 @@ import org.simplejavamail.mailer.config.TransportStrategy;
 
 import static me.kingtux.simplewebsite.SimpleSiteKeys.*;
 
-import java.io.File;
+import java.io.*;
 import java.util.Properties;
 
 public class SimpleSiteBuilder {
@@ -31,6 +31,16 @@ public class SimpleSiteBuilder {
         this.properties = BetterProperties.ptobp(properties);
     }
 
+    public SimpleSiteBuilder(File properties) {
+        this();
+        if (!properties.exists()) return;
+        try (InputStream inputStream = new FileInputStream(properties)) {
+            this.properties.load(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private SimpleSiteBuilder setProperty(String string, String value) {
         properties.setProperty(string, value);
@@ -39,6 +49,10 @@ public class SimpleSiteBuilder {
 
     public SimpleSiteBuilder setName(String value) {
         return setProperty(SITE_NAME, value);
+    }
+
+    public SimpleSiteBuilder setUseHTTP2(boolean value) {
+        return setProperty(SITE_NAME, String.valueOf(value));
     }
 
     public SimpleSiteBuilder setURL(String value) {

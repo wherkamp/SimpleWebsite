@@ -3,12 +3,12 @@ package me.kingtux.simplewebsite;
 import dev.tuxjsql.core.TuxJSQL;
 import dev.tuxjsql.core.TuxJSQLBuilder;
 import io.javalin.Javalin;
+import io.javalin.core.compression.Brotli;
+import io.javalin.core.compression.Gzip;
+import io.javalin.core.util.OptionalDependency;
 import me.kingtux.javalinvc.rg.ResourceGrabber;
 import me.kingtux.javalinvc.rg.ResourceGrabbers;
-import me.kingtux.tuxorm.TOConnection;
-import org.eclipse.jetty.alpn.server.ALPNServerConnectionFactory;
-import org.eclipse.jetty.http2.HTTP2Cipher;
-import org.eclipse.jetty.http2.server.HTTP2ServerConnectionFactory;
+
 import org.eclipse.jetty.server.*;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.simplejavamail.mailer.Mailer;
@@ -31,39 +31,13 @@ public class Utils {
 
     public static Server createSimpleServer(SslContextFactory sslContextFactory, int port1, int sslPort) {
         Server server = new Server();
-
+        ServerConnector sslConnector = new ServerConnector(server, sslContextFactory);
+        sslConnector.setPort(sslPort);
         ServerConnector connector = new ServerConnector(server);
         connector.setPort(port1);
-        server.addConnector(connector);
-
-        // HTTP Configuration
-        HttpConfiguration httpConfig = new HttpConfiguration();
-        httpConfig.setSendServerVersion(false);
-        httpConfig.setSecureScheme("https");
-        httpConfig.setSecurePort(sslPort);
-
-        // SSL Context Factory for HTTPS and HTTP/2
-        sslContextFactory.setCipherComparator(HTTP2Cipher.COMPARATOR);
-        sslContextFactory.setProvider("Conscrypt");
-
-        // HTTPS Configuration
-        HttpConfiguration httpsConfig = new HttpConfiguration(httpConfig);
-        httpsConfig.addCustomizer(new SecureRequestCustomizer());
-
-        // HTTP/2 Connection Factory
-        HTTP2ServerConnectionFactory h2 = new HTTP2ServerConnectionFactory(httpsConfig);
-        ALPNServerConnectionFactory alpn = new ALPNServerConnectionFactory();
-        alpn.setDefaultProtocol("h2");
-
-        // SSL Connection Factory
-        SslConnectionFactory ssl = new SslConnectionFactory(sslContextFactory, alpn.getProtocol());
-
-        // HTTP/2 Connector
-        ServerConnector http2Connector = new ServerConnector(server, ssl, alpn, h2, new HttpConnectionFactory(httpsConfig));
-        http2Connector.setPort(sslPort);
-        server.addConnector(http2Connector);
-
+        server.setConnectors(new Connector[]{sslConnector, connector});
         return server;
+
     }
 
     public static Javalin createJavalin(Properties p) {
@@ -72,13 +46,39 @@ public class Utils {
         if (Boolean.parseBoolean(p.getProperty("site.ssl", "false"))) {
             SslContextFactory contextFactory = getSslContextFactory(p.getProperty("site.ssl.file"),
                     p.getProperty("site.ssl.password"));
-            server =
-                    createSimpleServer(contextFactory, port, Integer.parseInt(p.getProperty("site.ssl.port", "8423")));
+            if (Boolean.parseBoolean(p.getProperty(SimpleSiteKeys.USE_HTTP2, "false"))) {
+                server =
+                        HTTPTwoBuilder.createHTTP2Server(contextFactory, port, Integer.parseInt(p.getProperty("site.ssl.port", "8423")));
+
+            } else {
+                server =
+                        createSimpleServer(contextFactory, port, Integer.parseInt(p.getProperty("site.ssl.port", "8423")));
+            }
         } else {
             server = createSimpleServer(port);
         }
         Server finalServer = server;
-        return Javalin.create(javalinConfig -> javalinConfig.server(() -> finalServer));
+        return Javalin.create(javalinConfig -> {
+            javalinConfig.server(() -> finalServer);
+            if (isClassPresent(OptionalDependency.JVMBROTLI.getTestClass())) {
+                //noinspection deprecation
+                javalinConfig.compressionStrategy(
+                        new Brotli(Integer.parseInt(p.getProperty(SimpleSiteKeys.COMPRESSION_BROTLI, "4"))),
+                        new Gzip(Integer.parseInt(p.getProperty(SimpleSiteKeys.COMPRESSION_GZIP, "6"))));
+                SimpleSite.LOGGER.info("Using Compression");
+
+            }
+        });
+
+    }
+
+    private static boolean isClassPresent(String testClass) {
+        try {
+            Class.forName(testClass);
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+        return true;
     }
 
     public static ResourceGrabber getResourceGrabber(Properties properties) {
