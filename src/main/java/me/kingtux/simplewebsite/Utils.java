@@ -100,7 +100,7 @@ public class Utils {
         return MailerBuilder.withSMTPServer(properties.getProperty("email.host", ""),
                 Integer.parseInt(properties.getProperty("email.port", "")),
                 properties.getProperty("email.from", ""),
-                properties.getProperty("email.password", "")).
+                properties.getProperty(SimpleSiteKeys.EMAIL_PASSWORD, "")).
                 withTransportStrategy(TransportStrategy.valueOf(properties.getProperty("email.ts"))).buildMailer();
 
     }

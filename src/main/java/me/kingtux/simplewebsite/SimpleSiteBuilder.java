@@ -100,7 +100,7 @@ public class SimpleSiteBuilder {
     }
 
     public SimpleSiteBuilder setEmailPassword(String value) {
-        return setProperty(EMAIL_HOST, value);
+        return setProperty(EMAIL_PASSWORD, value);
     }
 
     public SimpleSiteBuilder setEmailTransportStrategy(TransportStrategy value) {
