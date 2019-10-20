@@ -107,6 +107,10 @@ public class SimpleSiteBuilder {
         return setProperty(EMAIL_TRANSPORT_STRATEGY, value.name());
     }
 
+    public SimpleSiteBuilder setContextPath(String value) {
+        return setProperty(CONTEXT_PATH, value);
+    }
+
 
     public SimpleSiteBuilder setDatabase(Properties properties) {
         properties.keySet().forEach(o -> this.properties.setProperty((String) o, properties.getProperty((String) o)));

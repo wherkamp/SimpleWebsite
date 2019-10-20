@@ -16,6 +16,5 @@ public class TestMain {
         SimpleSiteBuilder simpleSiteBuilder = new SimpleSiteBuilder(properties);
         // Create the simple site
         SimpleSite simpleSite = simpleSiteBuilder.create();
-
     }
 }

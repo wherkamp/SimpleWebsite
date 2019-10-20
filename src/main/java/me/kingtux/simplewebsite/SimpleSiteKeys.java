@@ -1,6 +1,7 @@
 package me.kingtux.simplewebsite;
 
 public class SimpleSiteKeys {
+    static final String CONTEXT_PATH = "site.path";
     static final String COMPRESSION_BROTLI = "compression.brotli";
     static final String COMPRESSION_GZIP = "compression.gzip";
     static final String SITE_NAME = "site.name";

@@ -60,6 +60,7 @@ public class Utils {
         Server finalServer = server;
         return Javalin.create(javalinConfig -> {
             javalinConfig.server(() -> finalServer);
+            javalinConfig.contextPath = p.getProperty(SimpleSiteKeys.CONTEXT_PATH,"/");
             if (isClassPresent(OptionalDependency.JVMBROTLI.getTestClass())) {
                 //noinspection deprecation
                 javalinConfig.compressionStrategy(
@@ -82,7 +83,7 @@ public class Utils {
     }
 
     public static ResourceGrabber getResourceGrabber(Properties properties) {
-        ResourceGrabbers grabbers = ResourceGrabbers.valueOf(properties.getProperty("rg.type", ResourceGrabbers.INTERNAL_GRABBER.name()));
+        ResourceGrabbers grabbers = ResourceGrabbers.valueOf(properties.getProperty("rg.type", ResourceGrabbers.INTERNAL_EXTERNAL_GRABBER.name()));
         return grabbers.build(properties.getProperty("rg.path", "templates"));
     }
 
@@ -101,7 +102,6 @@ public class Utils {
                 Integer.parseInt(properties.getProperty("email.port", "")),
                 properties.getProperty("email.from", ""),
                 properties.getProperty(SimpleSiteKeys.EMAIL_PASSWORD, "")).
-                withTransportStrategy(TransportStrategy.valueOf(properties.getProperty("email.ts"))).buildMailer();
-
+                withTransportStrategy(TransportStrategy.valueOf(properties.getProperty("email.ts", TransportStrategy.SMTP.name()))).buildMailer();
     }
 }

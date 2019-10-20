@@ -38,8 +38,8 @@ public class SimpleSite {
         return javalinVC.getRules();
     }
 
-    public Javalin stop() {
-        return javalinVC.stop();
+    public void stop() {
+        javalinVC.stop();
     }
 
     public boolean isRunning() {
