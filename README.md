@@ -19,6 +19,18 @@ You can register a JavalinVC controller via #registerController, create
 a TuxORM dao via #createDao, or send a SimpleJavaMail email via #send
 
 
+#### Accessing 
+[How to access my Maven Repo](https://kingtux.dev/my-maven/)
+
+Maven Artifact
+```xml
+<dependency>
+    <groupId>me.kingtux</groupId>
+    <artifactId>simplewebsite</artifactId>
+    <version>1.0-SNAPSHOT</version>
+</dependency>
+```
+
 ### Libraries to know.
 SimpleJavaMail - [http://www.simplejavamail.org/](http://www.simplejavamail.org/)
 
