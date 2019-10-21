@@ -1,10 +1,9 @@
 ---
 layout: default
-title: Creating Via A Properties
+title: Simple Site Rules
 nav_order: 1
 ---
-### Import Properties when creating Via Properties
-
+### Properties required when creating a SimpleSite object
 | property        | value           |
 |:-------------|:------------------|
 | site.name           | The name of the site   |
