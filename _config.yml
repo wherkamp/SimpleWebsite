@@ -2,7 +2,7 @@ remote_theme: pmarsceill/just-the-docs
 
 title: SimpleWebsite
 description: A basic web site framework library
-baseurl: "/SimpleWebsite"
+baseurl: "/simplesite"
 url: "https://kingtux.dev"
 
 aux_links:
