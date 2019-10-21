@@ -6,4 +6,7 @@ baseurl: "/simplesite"
 url: "https://kingtux.dev"
 
 aux_links:
-  "Javalin on GitHub":
+  "SimpleSite on GitHub":
+    - "https://github.com/wherkamp/simplesite"
+  "JavalinVC":
+    - "https://kingtux.dev/javalinvc/"
