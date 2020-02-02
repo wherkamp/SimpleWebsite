@@ -94,7 +94,7 @@
         <dependency>
             <groupId>me.kingtux</groupId>
             <artifactId>tuxorm</artifactId>
-            <version>1.4.RC0</version>
+            <version>1.4.RC1</version>
         </dependency>
 
         <!-- HTTP2 -->
