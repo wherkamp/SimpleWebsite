@@ -37,7 +37,7 @@ public class SimpleSiteBuilder {
         try (InputStream inputStream = new FileInputStream(properties)) {
             this.properties.load(inputStream);
         } catch (IOException e) {
-            e.printStackTrace();
+            SimpleSite.LOGGER.error("Unable to load properties file", e);
         }
     }
 
