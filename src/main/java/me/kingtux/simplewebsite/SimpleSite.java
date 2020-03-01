@@ -20,6 +20,11 @@ public class SimpleSite {
     private TOConnection connection;
     private Mailer mailer;
 
+    public SimpleSite(JavalinVC javalinVC, TOConnection connection) {
+        this.javalinVC = javalinVC;
+        this.connection = connection;
+    }
+
     public SimpleSite(JavalinVC javalinVC, TOConnection connection, Mailer mailer) {
         this.javalinVC = javalinVC;
         this.connection = connection;

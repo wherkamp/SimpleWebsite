@@ -10,13 +10,14 @@
     <distributionManagement>
         <repository>
             <id>kingtux-repo</id>
-            <url>https://repo.kingtux.me/repository/maven-releases/</url>
+            <url>https://repo.kingtux.me/storages/maven/kingtux-repo</url>
         </repository>
         <snapshotRepository>
             <id>kingtux-repo</id>
-            <url>https://repo.kingtux.me/repository/maven-snapshots/</url>
+            <url>https://repo.kingtux.me/storages/maven/kingtux-repo</url>
         </snapshotRepository>
     </distributionManagement>
+
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
         <plugins>
@@ -43,25 +44,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.8</version>
-                <executions>
-                    <execution>
-                        <id>default-deploy</id>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>deploy</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <serverId>kingtux-repo</serverId>
-                    <nexusUrl>https://repo.kingtux.me/repository/maven-public/</nexusUrl>
-                    <skipStaging>true</skipStaging>
-                </configuration>
-            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -72,7 +55,7 @@
     <repositories>
         <repository>
             <id>kingtux-repo</id>
-            <url>https://repo.kingtux.me/repository/maven-public/</url>
+            <url>https://repo.kingtux.me/storages/maven/kingtux-repo</url>
         </repository>
     </repositories>
     <dependencies>
@@ -101,7 +84,7 @@
         <dependency>
             <groupId>org.eclipse.jetty.http2</groupId>
             <artifactId>http2-server</artifactId>
-            <version>9.4.20.v20190813</version>
+            <version>9.4.27.v20200227</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -119,7 +102,7 @@
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-alpn-conscrypt-server</artifactId>
-            <version>9.4.20.v20190813</version>
+            <version>9.4.27.v20200227</version>
             <scope>provided</scope>
         </dependency>
 

@@ -60,7 +60,7 @@ public class Utils {
         Server finalServer = server;
         return Javalin.create(javalinConfig -> {
             javalinConfig.server(() -> finalServer);
-            javalinConfig.contextPath = p.getProperty(SimpleSiteKeys.CONTEXT_PATH,"/");
+            javalinConfig.contextPath = p.getProperty(SimpleSiteKeys.CONTEXT_PATH, "/");
             if (isClassPresent(OptionalDependency.JVMBROTLI.getTestClass())) {
                 //noinspection deprecation
                 javalinConfig.compressionStrategy(
@@ -98,6 +98,7 @@ public class Utils {
     }
 
     public static Mailer createMailer(Properties properties) {
+        if (properties.getProperty(SimpleSiteKeys.EMAIL_HOST, null) == null) return null;
         return MailerBuilder.withSMTPServer(properties.getProperty("email.host", ""),
                 Integer.parseInt(properties.getProperty("email.port", "")),
                 properties.getProperty("email.from", ""),
