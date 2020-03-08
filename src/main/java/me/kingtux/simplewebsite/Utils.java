@@ -15,6 +15,7 @@ import org.simplejavamail.mailer.Mailer;
 import org.simplejavamail.mailer.MailerBuilder;
 import org.simplejavamail.mailer.config.TransportStrategy;
 
+import java.io.File;
 import java.util.Properties;
 
 public class Utils {
@@ -23,8 +24,9 @@ public class Utils {
     }
 
     public static SslContextFactory getSslContextFactory(String file, String password) {
+
         SslContextFactory sslContextFactory = new SslContextFactory.Server();
-        sslContextFactory.setKeyStorePath(file);
+        sslContextFactory.setKeyStorePath(new File(file).getAbsolutePath());
         sslContextFactory.setKeyStorePassword(password);
         return sslContextFactory;
     }
@@ -89,6 +91,9 @@ public class Utils {
 
     public static TuxJSQL createTuxJSQL(Properties p) {
         if (p.getProperty("db.type", null) == null) {
+            if (!isClassPresent("dev.tuxjsql.sqlite.SQLiteBuilder")) {
+                return null;
+            }
             Properties tempDB = new Properties();
             tempDB.setProperty("db.type", "dev.tuxjsql.sqlite.SQLiteBuilder");
             tempDB.setProperty("db.file", "db.db");

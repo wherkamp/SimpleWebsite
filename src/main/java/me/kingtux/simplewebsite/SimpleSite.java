@@ -29,6 +29,13 @@ public class SimpleSite {
         this.javalinVC = javalinVC;
         this.connection = connection;
         this.mailer = mailer;
+        if(mailer==null){
+            LOGGER.warn("Mailer has been disabled. Due to lack of credentials");
+        }
+        if(connection==null){
+            LOGGER.warn("TuxORM has been disabled. Due to lack of credentials");
+
+        }
     }
 
     public JavalinVC registerController(Object controller) {

@@ -1,5 +1,6 @@
 package me.kingtux.simplewebsite;
 
+import dev.tuxjsql.core.TuxJSQL;
 import io.javalin.Javalin;
 import me.kingtux.javalinvc.JavalinVC;
 import me.kingtux.javalinvc.JavalinVCBuilder;
@@ -122,7 +123,11 @@ public class SimpleSiteBuilder {
         WebsiteRules rules = WebsiteRulesBuilder.create().setName(properties.getProperty("site.name", "SimpleSite")).setUrl(properties.getProperty("site.url", "{PFFT}")).build();
         ViewManagerBuilder viewManager = ViewManagerBuilder.create().setExtension(properties.getProperty("vm.extension", ".html")).setViewManager("me.kingtux.javalinvc.jtwig.JtwigViewManager");
         ResourceGrabber resourceGrabber = Utils.getResourceGrabber(properties);
-        TOConnection connection = new TOConnection(Utils.createTuxJSQL(properties));
+        TuxJSQL tuxJSQL = Utils.createTuxJSQL(properties);
+        TOConnection connection = null;
+        if (tuxJSQL != null) {
+            connection = new TOConnection(tuxJSQL);
+        }
         Mailer mailer = Utils.createMailer(properties);
 
         JavalinVCBuilder javalinVCBuilder = JavalinVCBuilder.create().setJavalin(Utils.createJavalin(properties));
