@@ -12,8 +12,8 @@ import me.kingtux.javalinvc.rg.ResourceGrabbers;
 import me.kingtux.javalinvc.view.ViewManagerBuilder;
 import me.kingtux.tuxorm.TOConnection;
 import org.apache.commons.lang3.Validate;
-import org.simplejavamail.mailer.Mailer;
-import org.simplejavamail.mailer.config.TransportStrategy;
+import org.simplejavamail.api.mailer.Mailer;
+import org.simplejavamail.api.mailer.config.TransportStrategy;
 
 import static me.kingtux.simplewebsite.SimpleSiteKeys.*;
 

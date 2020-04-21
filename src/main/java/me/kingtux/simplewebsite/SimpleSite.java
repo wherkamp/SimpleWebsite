@@ -6,8 +6,9 @@ import me.kingtux.javalinvc.WebsiteRules;
 import me.kingtux.tuxorm.Dao;
 import me.kingtux.tuxorm.TOConnection;
 import org.simplejavamail.MailException;
-import org.simplejavamail.email.Email;
-import org.simplejavamail.mailer.Mailer;
+
+import org.simplejavamail.api.email.Email;
+import org.simplejavamail.api.mailer.Mailer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

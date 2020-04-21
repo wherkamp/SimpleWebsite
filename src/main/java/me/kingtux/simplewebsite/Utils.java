@@ -11,9 +11,9 @@ import me.kingtux.javalinvc.rg.ResourceGrabbers;
 
 import org.eclipse.jetty.server.*;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
-import org.simplejavamail.mailer.Mailer;
+import org.simplejavamail.api.mailer.Mailer;
+import org.simplejavamail.api.mailer.config.TransportStrategy;
 import org.simplejavamail.mailer.MailerBuilder;
-import org.simplejavamail.mailer.config.TransportStrategy;
 
 import java.io.File;
 import java.util.Properties;
@@ -90,16 +90,21 @@ public class Utils {
     }
 
     public static TuxJSQL createTuxJSQL(Properties p) {
-        if (p.getProperty("db.type", null) == null) {
-            if (!isClassPresent("dev.tuxjsql.sqlite.SQLiteBuilder")) {
-                return null;
-            }
-            Properties tempDB = new Properties();
-            tempDB.setProperty("db.type", "dev.tuxjsql.sqlite.SQLiteBuilder");
-            tempDB.setProperty("db.file", "db.db");
-            return TuxJSQLBuilder.create(tempDB);
-        } else
-            return TuxJSQLBuilder.create(p);
+        try {
+            if (p.getProperty("db.type", null) == null) {
+                if (!isClassPresent("dev.tuxjsql.sqlite.SQLiteBuilder")) {
+                    return null;
+                }
+                Properties tempDB = new Properties();
+                tempDB.setProperty("db.type", "dev.tuxjsql.sqlite.SQLiteBuilder");
+                tempDB.setProperty("db.file", "db.db");
+                return TuxJSQLBuilder.create(tempDB);
+            } else
+                return TuxJSQLBuilder.create(p);
+        } catch (Exception exception) {
+            SimpleSite.LOGGER.error("Unable to connect to SQL", exception);
+        }
+        return null;
     }
 
     public static Mailer createMailer(Properties properties) {
