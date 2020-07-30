@@ -102,7 +102,7 @@
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-alpn-conscrypt-server</artifactId>
-            <version>9.4.30.v20200611</version>
+            <version>9.4.31.v20200723</version>
             <scope>provided</scope>
         </dependency>
 
