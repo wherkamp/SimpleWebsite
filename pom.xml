@@ -84,7 +84,7 @@
         <dependency>
             <groupId>org.eclipse.jetty.http2</groupId>
             <artifactId>http2-server</artifactId>
-            <version>9.4.30.v20200611</version>
+            <version>9.4.32.v20200930</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
